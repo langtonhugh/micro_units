@@ -3,6 +3,7 @@ library(osmdata)
 library(ggplot2)
 library(dplyr)
 library(sf)
+library(tmap)
 
 # get milton keynes boundary
 mk_bb_sf <- getbb("Milton Keynes united kingdom", format_out = "sf_polygon")
@@ -79,44 +80,101 @@ ggplot(data = filter(sp_mk_centre_sf, length < 500)) +
   geom_vline(xintercept = mean(sp_mk_centre_sf$length), col = "red") +
   geom_vline(xintercept = median(sp_mk_centre_sf$length), col = "blue")
 
-# but do these end and begin at nodes?
-case_study_buffer_sf <- st_buffer(mk_centre_sf, 500)
-case_study_sf <- st_intersection(sp_mk_centre_sf, case_study_buffer_sf)
+# calculate sinuosity
+sp_mk_centre_simple_sf <- sp_mk_centre_sf %>% 
+  mutate(length_raw = st_length(.)) %>%          # more accurate than OS lengths which are rounded
+  st_simplify(dTolerance = 99) %>%               # simplify lines to straight lines
+  mutate(length_str = st_length(.),              # calculate length of straight lines
+         length_dif = length_raw-length_str,     # calculate difference between raw and simplified
+         sinuosity = length_raw/length_str) %>%  # raw length / start-end length
+  filter(is.finite(sinuosity))                   # these are closed roads i.e. start == end
 
-# check (yes)
-ggplot(data = case_study_sf) +
-  geom_sf(mapping = aes(colour = identifier), size = 1.5) +
-  theme(legend.position = "none")
+# check the very high cases - manual checks suggest could be errors
+outliers_sf <- sp_mk_centre_simple_sf %>% 
+  filter(as.numeric(sinuosity) > 3)
 
-# convert to points (vertices along each line)
-case_study_pts_sf <- case_study_sf %>% 
-  st_cast(to = "POINT")
+# filter out these outliers from the raw roads
+outliers_roads_sf <- sp_mk_centre_sf %>% 
+  filter(identifier %in% outliers_sf$identifier)
 
-# calcualte distance between each vertices along line
-case_study_pts_sf <- case_study_pts_sf %>% 
-  mutate(sinous = st_distance(case_study_pts_sf))
+# plot
+tm_shape(outliers_roads_sf) +
+  tm_lines() +
+  tm_facets(by = "identifier") 
 
-# get the beginning and end points
+# interestingly, many of these are 'places' which tend to be enclosed suburban aroads - common in the UK
 
-case_study_ends_sf <- case_study_pts_sf$sinous %>% 
+# descriptives
+
+# function for mode (https://stackoverflow.com/questions/2547402/how-to-find-the-statistical-mode)
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+stats_df <- sp_mk_centre_simple_sf %>% 
   as_tibble() %>% 
-  slice(1, nrow(.)) 
+  select(identifier, length_raw:sinuosity) %>% 
+  mutate(across(length_raw:sinuosity, round, 2),
+         across(length_raw:sinuosity, as.numeric)) %>% 
+  summarise(mean_raw    = mean(length_raw),
+            median_raw  = median(length_raw),
+            sd_raw      = sd(length_raw),
+            min_raw     = min(length_raw),
+            max_raw     = max(length_raw),
+            mean_diff   = mean(length_dif),
+            median_diff = median(length_dif),
+            sd_diff     = sd(length_dif),
+            min_diff    = min(length_dif),
+            max_diff    = max(length_dif),
+            mean_sin    = mean(sinuosity),
+            median_sin  = median(sinuosity),
+            sd_sin      = sd(sinuosity),
+            max_sin     = max(sinuosity),
+            min_sin     = min(sinuosity),
+            mode_sin    = Mode(sinuosity)) %>% 
+  mutate(across(mean_raw:mode_sin, round, 2),
+         id = 1) %>% 
+  pivot_longer(cols = -id, names_to = "statistic", values_to = "mk_metres") %>% 
+  select(-id)
 
+View(stats_df)
 
-class(case_study_pts_sf$sinous)
-min(case_study_pts_sf$sinous)
-max(case_study_pts_sf$sinous)
-mean(case_study_pts_sf$sinous)
-median(case_study_pts_sf$sinous)
-sum(is.na(case_study_pts_sf$sinous))
+# # case study to find a way to calculate sinuosity of these street segments
+# # but do these end and begin at nodes?
+# case_study_buffer_sf <- st_buffer(mk_centre_sf, 100)
+# case_study_sf <- st_intersection(sp_mk_centre_sf, case_study_buffer_sf)
+# 
+# # check (yes)
+# ggplot(data = case_study_sf) +
+#   geom_sf(mapping = aes(colour = identifier), size = 1.5) +
+#   theme(legend.position = "none")
+# 
+# # convert to points (vertices along each line)
+# case_study_pts_sf <- case_study_sf %>% 
+#   st_cast(to = "POINT")
+# 
+# ggplot() +
+#   geom_sf(data = case_study_sf, mapping = aes(colour = identifier), size = 1) +
+#   geom_sf(data = case_study_pts_sf, mapping = aes(colour = identifier), size = 2) +
+#   theme(legend.position = "none")
+# 
+# # calcualte distance between each vertices along line
+# case_study_pts_sf <- case_study_pts_sf %>% 
+#   mutate(sinous = st_distance(case_study_pts_sf))
+# 
+# # try simplify method
+# case_study_simple_sf <- st_simplify(case_study_sf, dTolerance = 9999)
+# 
+# 
+# ggplot() +
+#   geom_sf(data = case_study_sf, mapping = aes(colour = identifier), size = 2, alpha = 0.5) +
+#   geom_sf(data = case_study_pts_sf, mapping = aes(colour = identifier), size = 2, alpha = 0.5) +
+#   geom_sf(data = case_study_simple_sf, mapping = aes(colour = identifier), size = 1) +
+#   theme(legend.position = "none")
+# 
+# case_study_simple_sf <- case_study_simple_sf %>% 
+#   mutate(length_str = st_length(.))
 
-# compare
-p1 <- ggplot(data = case_study_pts_sf) +
-  geom_density(mapping = aes(x = length))
-
-p2 <- ggplot(data = case_study_pts_sf) +
-  geom_density(mapping = aes(x = as.numeric(sinous)))
-
-p1 / p2
 
 
