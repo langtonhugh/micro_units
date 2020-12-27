@@ -1,5 +1,5 @@
 ---
-title: "Uniformity of street segments"
+title: "The uniformity of street segments: length and sinuosity"
 author: "Samuel Langton"
 output: html_document
 ---
@@ -8,7 +8,14 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Unit of analysis is important. Debate over suitability of meso / micro. A consensus has been built around 'street segments' as the most appropriate micro-scale to study crime. But little attention has been paid to the physical characteristics of street segments, especially between study regions / countries. Here, we look at a selection of major cities in the UK to look at the characteristics of street segments: length and sinuosity. 
+In recent years, a consensus has begun to emerge over the suitability of street segments for visualising and analysing the geographic patterning of crime. These so-called 'micro' places tend to be defined as "the two block faces on both sides of the street between two intersections". A number of studies have demonstrated that street segments are not only theoretically meaningful behavioural spaces, but that most 'action' (e.g. concentration and variation in crime) occurs among street segments, making them particularly useful units of analysis for studying crime and designing crime-reducing interventions.
+
+To use one of academia's favourite phrases, it is definitely 'beyond the scope' of this post to discuss the merits and pitfalls of different spatial scales. For many people, the jury is still out. The utility of street segments has been scrutinised on a number of different grounds, and there are a number of suggested readings below that shed some light on this (ongoing) discussion. 
+
+Here's my issue. Despite their widepsread and highly inflential usage, remarkably little attention has been paid to the physical characteristics of street segments themselves.
+
+
+But little attention has been paid to the physical characteristics of street segments, especially between study regions / countries. Here, we look at a selection of major cities in the UK to look at the characteristics of street segments: length and sinuosity. 
 
 ## Street segments
 
