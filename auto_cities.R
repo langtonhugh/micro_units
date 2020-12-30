@@ -85,6 +85,26 @@ cities_roads_list_sf <- map2(roads_list, osm_cities_clean_list, st_intersection)
 # save.image(file = "auto_cities.RData")
 load(file = "auto_cities.RData")
 
+# Street segment example.
+manc_sf <- cities_roads_list_sf[["Manchester United Kingdom"]]
+manc_sr_sf <- osm_cities_clean_list[["Manchester United Kingdom"]]
+
+manc_buf_sf <- manc_sr_sf %>% 
+  st_centroid() %>% 
+  st_buffer(dist = 500) 
+
+manc_ex_sf <- st_intersection(manc_sf, manc_buf_sf)
+
+manc_ex_gg <- ggplot() +
+  geom_sf(data = manc_buf_sf) + 
+  geom_sf(data = manc_ex_sf, 
+          mapping = aes(colour = identifier), size = 1.2) +
+  theme(legend.position = "none",
+        axis.text = element_text(size = 6))
+
+ggsave(plot = manc_ex_gg, filename = "visuals/manc_ex.png",
+       height = 15, width = 15, unit = "cm", dpi = 200)
+
 # Study region visuals.
 study_viz_fun <- function(x, y){
   ggplot() +
@@ -156,58 +176,58 @@ cities_roads_stats_list <- cities_roads_stats_list %>%
   map2(cities_vec, ~.x %>% mutate(City = .y))
 
 # Calculate proportion of streets with a sinuosity of ~1.
-# First, round sinuoity to 4 decimal places (arbitary but reasonable, I think).
+# First, round sinuoity to 6 decimal places (arbitary but reasonable, I think).
 round_fun <- function(x){
   x %>% 
     mutate(sin_rounded = round(as.numeric(sinuosity), 6))
 }
 cities_roads_simple_list_sf <- lapply(cities_roads_simple_list_sf, round_fun)
 
-# # Pull out random examples of high and low sinuosity.
-# set.seed(1612)
-# 
-# example_simple_sf <- cities_roads_simple_list_sf[[1]] %>% 
-#   arrange(sin_rounded) %>% 
-#   filter(sin_rounded > 2) %>% 
-#   sample_n(size = 1)
-# 
-# example_orig_sf <- cities_roads_list_sf[[1]] %>% 
-#   filter(identifier == example_simple_sf$identifier)
-# 
-# example_simple_sf$sin_rounded
-# 
-# high_sin <- ggplot() +
-#   geom_sf(data = example_orig_sf, size = 2) +
-#   geom_sf(data = example_simple_sf, col = "Red") +
-#   labs(title = "High sinuosity (~7)") +
-#   theme(axis.text.y = element_text(size = 6),
-#         axis.text.x = element_text(size = 6, angle = 45, vjust = 0.5),
-#         axis.ticks = element_blank())
-# 
-# set.seed(1612)
-# 
-# example_simple_sf <- cities_roads_simple_list_sf[[1]] %>% 
-#   arrange(sin_rounded) %>% 
-#   filter(sin_rounded > 1 & sin_rounded < 1.5) %>% 
-#   sample_n(size = 1)
-# 
-# example_orig_sf <- cities_roads_list_sf[[1]] %>% 
-#   filter(identifier == example_simple_sf$identifier)
-# 
-# example_simple_sf$sin_rounded
-# 
-# low_sin <- ggplot() +
-#   geom_sf(data = example_orig_sf, size = 2) +
-#   geom_sf(data = example_simple_sf, col = "Red") +
-#   labs(title = "Low sinuosity (~1.08)") +
-#   theme(axis.text.y = element_text(size = 6),
-#         axis.text.x = element_text(size = 6, angle = 45, vjust = 0.5),
-#         axis.ticks = element_blank())
-# 
-# sin_example_gg <- plot_grid(low_sin, high_sin, ncol = 2)
-# 
-# ggsave(plot = sin_example_gg, filename = "visuals/sin_example.png",
-#        height = 8, width = 12)
+# Pull out random examples of high and low sinuosity.
+set.seed(1612)
+
+example_simple_sf <- cities_roads_simple_list_sf[[1]] %>%
+  arrange(sin_rounded) %>%
+  filter(sin_rounded > 2) %>%
+  sample_n(size = 1)
+
+example_orig_sf <- cities_roads_list_sf[[1]] %>%
+  filter(identifier == example_simple_sf$identifier)
+
+example_simple_sf$sin_rounded
+
+high_sin <- ggplot() +
+  geom_sf(data = example_orig_sf, size = 2) +
+  geom_sf(data = example_simple_sf, col = "Red") +
+  labs(title = "High sinuosity (~7)") +
+  theme(axis.text.y = element_text(size = 6),
+        axis.text.x = element_text(size = 6, angle = 45, vjust = 0.5),
+        axis.ticks = element_blank())
+
+set.seed(1612)
+
+example_simple_sf <- cities_roads_simple_list_sf[[1]] %>%
+  arrange(sin_rounded) %>%
+  filter(sin_rounded > 1 & sin_rounded < 1.5) %>%
+  sample_n(size = 1)
+
+example_orig_sf <- cities_roads_list_sf[[1]] %>%
+  filter(identifier == example_simple_sf$identifier)
+
+example_simple_sf$sin_rounded
+
+low_sin <- ggplot() +
+  geom_sf(data = example_orig_sf, size = 2) +
+  geom_sf(data = example_simple_sf, col = "Red") +
+  labs(title = "Low sinuosity (~1.08)") +
+  theme(axis.text.y = element_text(size = 6),
+        axis.text.x = element_text(size = 6, angle = 45, vjust = 0.5),
+        axis.ticks = element_blank())
+
+sin_example_gg <- plot_grid(low_sin, high_sin, ncol = 2)
+
+ggsave(plot = sin_example_gg, filename = "visuals/sin_example.png",
+       height = 8, width = 12)
 
 # Produce percentages.
 sin_one_fun <- function(x) {

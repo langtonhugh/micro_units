@@ -1,0 +1,50 @@
+---
+title: "The universality of street segments: length and sinuosity"
+author: "Samuel Langton"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+In recent years, a consensus has begun to emerge over the suitability of street segments for visualising and analysing the geographic patterning of crime. A number of studies have demonstrated that these so-called 'micro' places are not only theoretically meaningful behavioural spaces, but that most 'action' (e.g. concentration and variation in crime) occurs among street segments, making them particularly useful units of analysis for studying criminal behaviour and designing crime-reducing interventions.
+
+But how useful is the 'street segment' outside of North America? To what extent are these micro units comparable between cities, and between countries? To satisfy my own curiosity, and to gauge people's interest / enthusiasm for the topic, I have spent a bit of time exploring the physical characteristics (length and sinuosity) of street segments in the UK. 
+
+## Street segments
+
+To use one of academia's favourite phrases, it is definitely 'beyond the scope' of this post to discuss the merits and pitfalls of different spatial scales. For many people, the jury is still out. The utility of street segments has been scrutinised on a number of different grounds, and there are a number of suggested readings below that shed some light on this (ongoing) discussion.
+
+But whichever way you look at it, the usage of street segments in criminology has been immensely important, and highly influential. This is particularly true in the United States and Canada. After all, the definition of street segments, namely, “the two block faces on both sides of the street between two intersections”, is geared towards the built environment of North America, or similarly block-based cities. Studies in Sweden, for example, have described street segments as "virtually useless" because many urban areas are designed to be car-free, and therefore have little or no actual streets.
+
+Unfortunately for us, the UK does not have the foresight to have many car-free urban areas. However, it does contain cities with highly variable histories of urban development. It seems / seemed implausible to me that the physical characteristics of street segments in, say, Milton Keynes, a purpose-built town which did not exist until the 1960s, were comparable to those in Edinburgh, which gained city status around 400 years ago.
+
+Just to avoid any disappointment, I still don't have a definitive answer to this question. But, to get things going, I have compiled some descriptive statistics about street segments in eight major towns and cities in the UK. All the code used to generate these very preliminary findings is openly available. If people are interested, I can write a separate post on the data/code side of things. One thing worth noting now, as evident below, is that the town/city boundaries sometimes include satellite towns and hamlets. This raises a related discussion about the 'universality' of street segments in terms of urban/rural areas that I might return to later.
+
+```{r regions, fig.pos = 'H', message=F, comment=F, warning=F, fig.cap = "Study regions"}
+knitr::include_graphics("visuals/study_regions_lq.png")
+```
+
+## Characteristics
+
+```{r simexample, fig.pos = 'H', message=F, comment=F, warning=F}
+knitr::include_graphics("visuals/sin_example.png")
+```
+
+```{r length, fig.pos = 'H', message=F, comment=F, warning=F}
+knitr::include_graphics("visuals/length.png")
+```
+
+```{r stats, fig.pos = 'H', message=F, comment=F, warning=F, fig.cap = "Characteristics of street segments by city."}
+stats_df <- readr::read_csv("results/cities_roads_stats.csv")
+
+kableExtra::kable(stats_df, format = "pipe")
+```
+
+```{r lengthno, fig.pos = 'H', message=F, comment=F, warning=F}
+knitr::include_graphics("visuals/length_no.png")
+```
+
+## Conclusion
+
