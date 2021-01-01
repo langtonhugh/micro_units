@@ -8,13 +8,13 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-In recent years, a consensus has begun to emerge over the suitability of street segments for visualising and analysing the geographic patterning of crime. A number of studies have demonstrated that these so-called 'micro' places are not only theoretically meaningful behavioural spaces, but that most 'action' (e.g. concentration and variation in crime) occurs among street segments, making them particularly useful units of analysis for studying criminal behaviour and designing crime-reducing interventions.
+In recent years, a consensus has begun to emerge over the suitability of street segments for visualising and analysing the geographic patterning of crime. A number of studies have argued / demonstrated that these so-called 'micro' places are not only theoretically meaningful behavioural spaces, but that most 'action' (e.g. concentration and variation in crime) occurs among street segments, making them particularly useful units of analysis for studying criminal behaviour and designing crime-reducing interventions.
 
-But how useful is the 'street segment' outside of North America? To what extent are these micro units comparable between cities, and between countries? So far, I haven't found much data-driven research into the uniformity and 'universality' of street segments in terms of their physical characteristics. But, there are reasons to examine this avenue further. In Sweden, for instance, street segments have been described as "virtually useless" because many urban areas are designed to be car-free, and therefore have little or no streets -- quite the opposite to cities in the United States.
+But how useful is the 'street segment' outside of North America? To what extent are these micro units comparable between cities, and between countries? So far, I haven't found much data-driven research into the uniformity and 'universality' of street segments in terms of their physical characteristics. But to me, there are reasons to examine this avenue further. In Sweden, for instance, street segments have been described as "virtually useless" because many urban areas are designed to be car-free, and therefore do not have 'street segments' in the same sense that the United States does.
 
-Unfortunately for us, the UK does not have the foresight to have many car-free urban areas. However, it does contain cities with highly variable histories of urban development. It seems / seemed implausible to me that the physical characteristics of street segments in, say, Milton Keynes, a purpose-built town which did not exist until the 1960s, were comparable to those in Edinburgh, which gained city status around 400 years ago, or Birmingham, which underwent dramatic urban regeneration following extensive bombing in World War II. 
+Unfortunately for us, the UK does not have the foresight to have many car-free urban areas. However, it does contain cities with highly variable histories of urban development. It seems / seemed implausible to me that the physical characteristics of street segments in, say, Milton Keynes, a purpose-built town which did not exist until the 1960s, were comparable to those in Edinburgh, which gained city status around 400 years ago, or Birmingham, which underwent dramatic urban regeneration following extensive bombing in World War II.
 
-To satisfy my own curiosity, and to gauge people's interest / enthusiasm for the topic, I have spent a bit of time exploring the physical characteristics (length and sinuosity) of street segments in the UK. All the code used to generate the (very preliminary) findings presented here is openly available. If anyone has any thoughts or pointers, please do get in touch.
+To satisfy my own curiosity, and to gauge people's interest / enthusiasm for the topic, I have spent a bit of time exploring the physical characteristics (length and sinuosity) of street segments in the UK. All the code used to generate the (very preliminary) findings presented here is openly available. This work represents early thoughts and explorations, so if anyone has any comments or pointers, please do get in touch. 
 
 ## Street segments
 
@@ -32,11 +32,11 @@ I collated this data for eight major towns and cities in the UK. Roads were clip
 knitr::include_graphics("visuals/study_regions_lq.png")
 ```
 
-For now, I focus on describing the physical characteristics of these street segments in two ways: **length** and **sinuosity**. By examining the degree to which street segments are homogeneous in length and sinuosity, both within and between study regions, we might shed some light on the degree to which they can be considered a 'universal' unit of analysis. Although of course, a key next step will be international comparisons.
+For now, I focus on describing the physical characteristics of these street segments in two ways: **length** and **sinuosity**. By examining the degree to which street segments are homogeneous in length and sinuosity, both within and between study regions, we might shed some light on the degree to which they can be considered uniform, and in turn, 'universal' units of analysis.
 
 **Length** is fairly self-explanatory. We are talking about it in the conventional sense (metric length) rather than other definitions (e.g. topological length). Although there is not much information out there, there appears to be at least _some_ variation in the length of street segments used in crime concentration research. It is often added as a control variable, since longer streets might have more crime by virtue of their length, rather than whatever we are interested in.
 
-Would excessive ranges (maximum - minimum) and variation in street segment length undermine the idea that street segments are a universally useful micro unit of analysis? Can we compare study regions which are comprised of street segments with drastically different length characteristics (e.g. mean, variation, minimum, maximum)?
+Would excessive ranges (maximum - minimum) and variation in street segment length undermine the idea that street segments are a universally useful micro unit of analysis? Can we confidently compare study regions which are comprised of street segments with drastically different length characteristics (e.g. mean, variation, minimum, maximum)?
 
 **Sinuosity** is a fairly new concept to me. In crude terms, and at the risk of annoying geographers and mathematicians, sinuosity in this context represents a measure of 'straightness'. It is calculated by dividing the actual length of a line by the straight line distance (i.e. the distance between the start and end point). So, a perfectly straight street segment, for which the actual length and straight line length are the same, will have a sinuosity of 1, the smallest value possible. The example below, using street segments randomly sampled from Birmingham, demonstrates this concept.
 
@@ -44,19 +44,30 @@ Would excessive ranges (maximum - minimum) and variation in street segment lengt
 knitr::include_graphics("visuals/sin_example.png")
 ```
 
-Again, the reasoning behind examining sinuosity is to scrutinise the universality of street segments as meaningful behavioural spaces to study crime. A huge amount of variation in the sinuosity of street segments (either within the same study region, or between different study regions) might give reason to question this. Modern, grid-based cities might be almost entirely comprised of street segments with a sinuosity of 1. Cities with a long and convoluted history of urban development might have far more irregularity or quirks. In which case, would the definition of 'street segment' generate units of analysis which hold the same theoretical meaning?
+Again, the reasoning behind examining sinuosity is to scrutinise the universality of street segments as meaningful behavioural spaces to study crime. A huge amount of variation in the sinuosity of street segments (either within the same study region, or between different study regions) might give reason to question this. Modern, grid-based cities might be almost entirely comprised of street segments with a sinuosity of 1. Cities with a long and convoluted history of urban development might have far more irregularity or quirks (e.g. right figure above). In which case, would the definition of 'street segment' generate units of analysis which hold the same theoretical meaning?
 
 ## Characteristics
 
-```{r length, fig.pos = 'H', message=F, comment=F, warning=F}
-knitr::include_graphics("visuals/length.png")
-```
+For now, I have generated a series of descriptive statistics to try and summarise the length and sinuosity of the eight study regions. On top of statistics on raw length (e.g. 'Mean length') and sinuosity (e.g. 'Mean sin.') I have also calculated some additional stats: the difference in metres between the raw street segment length and the straight line distance (e.g. 'Mean diff.'), and the proportion of total street segments which are straight in each city ('Prop. ~straight').
 
 ```{r stats, fig.pos = 'H', message=F, comment=F, warning=F, fig.cap = "Characteristics of street segments by city."}
 stats_df <- readr::read_csv("results/cities_roads_stats.csv")
 
 kableExtra::kable(stats_df, format = "pipe")
 ```
+
+### Length
+
+
+### Difference
+### Sinuosity
+### Proportion straight
+
+
+```{r length, fig.pos = 'H', message=F, comment=F, warning=F}
+knitr::include_graphics("visuals/length.png")
+```
+
 
 ```{r lengthno, fig.pos = 'H', message=F, comment=F, warning=F}
 knitr::include_graphics("visuals/length_no.png")

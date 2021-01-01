@@ -114,9 +114,9 @@ study_viz_fun <- function(x, y){
 }
 
 # Create visual of study regions.
-study_regions <- map2(osm_cities_clean_list, cities_roads_list_sf, study_viz_fun)
-study_regions_gg <- plot_grid(plotlist = study_regions, ncol = 2,
-                              labels = str_remove_all(cities_vec, " United Kingdom"))
+# study_regions <- map2(osm_cities_clean_list, cities_roads_list_sf, study_viz_fun)
+# study_regions_gg <- plot_grid(plotlist = study_regions, ncol = 2,
+#                               labels = str_remove_all(cities_vec, " United Kingdom"))
 
 # Save.
 # ggsave(plot = study_regions_gg, filename = "visuals/study_regions_hq.png",
@@ -150,22 +150,22 @@ x %>%
   as_tibble() %>% 
   select(identifier, length_raw:sinuosity) %>% 
   mutate(across(length_raw:sinuosity, as.numeric)) %>%
-  summarise(`Mean length`    = mean(length_raw),
-            `Median length`  = median(length_raw),
-            `SD length`      = sd(length_raw),
-            `Min. length`    = min(length_raw),
-            `Max. length`    = max(length_raw),
-            `Mean diff.`     = mean(length_dif),
-            `Median diff.`   = median(length_dif),
-            `SD diff.`       = sd(length_dif),
-            `Min. diff.`     = min(length_dif),
-            `Max. diff.`     = max(length_dif),
+  summarise(`Mean length (metres)`    = mean(length_raw),
+            `Median length (metres)`  = median(length_raw),
+            `SD length (metres)`      = sd(length_raw),
+            `Min. length (metres)`    = min(length_raw),
+            `Max. length (metres)`    = max(length_raw),
+            `Mean diff. (metres)`     = mean(length_dif),
+            `Median diff. (metres)`   = median(length_dif),
+            `SD diff. (metres)`       = sd(length_dif),
+            `Min. diff. (metres)`     = min(length_dif),
+            `Max. diff. (metres)`     = max(length_dif),
             `Mean sin.`      = mean(sinuosity),
             `Median sin.`    = median(sinuosity),
             `SD sin.`        = sd(sinuosity),
             `Min. sin.`      = min(sinuosity),
             `Max. sin.`      = max(sinuosity)) %>% 
-    mutate(across(`Mean length`:`Max. sin.`, round, 6))
+    mutate(across(`Mean length (metres)`:`Max. sin.`, round, 6))
 }
 
 # Loop through to generate stats.
@@ -226,8 +226,8 @@ low_sin <- ggplot() +
 
 sin_example_gg <- plot_grid(low_sin, high_sin, ncol = 2)
 
-ggsave(plot = sin_example_gg, filename = "visuals/sin_example.png",
-       height = 8, width = 12)
+# ggsave(plot = sin_example_gg, filename = "visuals/sin_example.png",
+#        height = 8, width = 12)
 
 # Produce percentages.
 sin_one_fun <- function(x) {
@@ -242,12 +242,12 @@ one_sins_df <- as.data.frame(lapply(cities_roads_simple_list_sf, sin_one_fun)) %
 # Join each.
 stats_df <- cities_roads_stats_list %>% 
   bind_rows() %>%
-  select(City, `Mean length`:`Max. sin.`) %>%
+  select(City, `Mean length (metres)`:`Max. sin.`) %>%
   mutate(City = str_remove_all(City, " United Kingdom"),
          City = if_else(condition = City == "Milton Keynes", true = "M. Keynes",
                         false = City)) %>%
   bind_cols(one_sins_df) %>% # same order
-  mutate(across(`Mean length`:`Prop. ~straight`, round, 2))
+  mutate(across(`Mean length (metres)`:`Prop. ~straight`, round, 2))
 
 # Save.
 write_csv(x = stats_df, path = "results/cities_roads_stats.csv")

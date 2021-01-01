@@ -1,4 +1,4 @@
-City,Mean length,Median length,SD length,Min. length,Max. length,Mean diff.,Median diff.,SD diff.,Min. diff.,Max. diff.,Mean sin.,Median sin.,SD sin.,Min. sin.,Max. sin.,Prop. ~straight
+City,Mean length (metres),Median length (metres),SD length (metres),Min. length (metres),Max. length (metres),Mean diff. (metres),Median diff. (metres),SD diff. (metres),Min. diff. (metres),Max. diff. (metres),Mean sin.,Median sin.,SD sin.,Min. sin.,Max. sin.,Prop. ~straight
 Birmingham,91.29,69.28,83.48,0.01,3573.64,4.32,0,13.18,-0,231.63,1.05,1,0.3,1,26.13,0.6
 Leeds,90.32,62.62,111.75,0.01,2716.05,4.4,0,13.7,-0,237.74,1.05,1,0.32,1,30.39,0.62
 M. Keynes,96.94,61.8,137.5,0.03,3489.49,5,0,14.17,-0,192.4,1.08,1,1.81,1,219.3,0.48
