@@ -10,17 +10,17 @@ knitr::opts_chunk$set(echo = FALSE)
 
 In recent years, a consensus has begun to emerge over the suitability of street segments for visualising and analysing the geographic patterning of crime. A number of studies have argued / demonstrated that these so-called 'micro' places are not only theoretically meaningful behavioural spaces, but that most 'action' (e.g. concentration and variation in crime) occurs among street segments, making them particularly useful units of analysis for studying criminal behaviour and designing crime-reducing interventions.
 
-But how useful is the 'street segment' outside of North America? To what extent are these micro units comparable between cities, and between countries? So far, I haven't found much data-driven research into the uniformity and 'universality' of street segments in terms of their physical characteristics. But to me, there are reasons to examine this avenue further. In Sweden, for instance, street segments have been described as "virtually useless" because many urban areas are designed to be car-free, and therefore do not have 'street segments' in the same sense that the United States does.
+But how useful is the 'street segment' outside of North America? To what extent are these micro units comparable between cities, and between countries? So far, I haven't found much data-driven research into the uniformity and 'universality' of street segments in terms of their physical characteristics. But to me, there are reasons to examine this issue further. In Sweden, for instance, street segments have been described as "virtually useless" because many urban areas are designed to be car-free, and consequently do not have 'street segments' in the same sense that the United States does.
 
 Unfortunately for us, the UK does not have the foresight to have many car-free urban areas. However, it does contain cities with highly variable histories of urban development. It seems / seemed implausible to me that the physical characteristics of street segments in, say, Milton Keynes, a purpose-built town which did not exist until the 1960s, were comparable to those in Edinburgh, which gained city status around 400 years ago, or Birmingham, which underwent dramatic urban regeneration following extensive bombing in World War II.
 
-To satisfy my own curiosity, and to gauge people's interest / enthusiasm for the topic, I have spent a bit of time exploring the physical characteristics (length and sinuosity) of street segments in the UK. All the code used to generate the (very preliminary) findings presented here is openly available. This work represents early thoughts and explorations, so if anyone has any comments or pointers, please do get in touch. 
+To satisfy my own curiosity, and to gauge people's interest / enthusiasm for the topic, I have spent a bit of time exploring the physical characteristics (length and sinuosity) of street segments in the UK. All the code used to generate these (very preliminary) findings is openly available. This work represents early thoughts and explorations, so if anyone has any comments or pointers, please do get in touch. 
 
 ## Street segments
 
 Street segments are defined as “the two block faces on both sides of the street between two intersections”. While the definition is clearly geared towards the grid-based street networks of North America, we can apply a comparable concept to the UK using data from Ordnance Survey Open Roads. Here, individual streets are defined (and given a unique ID) based on meeting intersections. As an example, the following visual plots street segments within a 500-metre buffer in the centre of Manchester. Each road ID has been coloured to help demonstrate the individual street segments.
 
-```{r manc, fig.pos = 'H', message=F, comment=F, warning=F, fig.cap = "Street segments in the centre of Manchester"}
+```{r manc, fig.pos = 'H', message=F, comment=F, warning=F}
 knitr::include_graphics("visuals/manc_ex.png")
 ```
 
@@ -28,7 +28,7 @@ To me, the Ordnance Survey data fits the definition of street segments rather we
 
 I collated this data for eight major towns and cities in the UK. Roads were clipped according to the town or city boundary, and those roads classified as motorways (highways) were removed. As evidenced below, the city boundaries sometimes include satellite towns and hamlets. This raises a related discussion about the universality of street segments in terms of urban/rural areas and how city boundaries are defined -- I might return to this another time.
 
-```{r regions, fig.pos = 'H', message=F, comment=F, warning=F, fig.cap = "Study regions"}
+```{r regions, fig.pos = 'H', message=F, comment=F, warning=F}
 knitr::include_graphics("visuals/study_regions_lq.png")
 ```
 
@@ -36,7 +36,7 @@ For now, I focus on describing the physical characteristics of these street segm
 
 **Length** is fairly self-explanatory. We are talking about it in the conventional sense (metric length) rather than other definitions (e.g. topological length). Although there is not much information out there, there appears to be at least _some_ variation in the length of street segments used in crime concentration research. It is often added as a control variable, since longer streets might have more crime by virtue of their length, rather than whatever we are interested in.
 
-Would excessive ranges (maximum - minimum) and variation in street segment length undermine the idea that street segments are a universally useful micro unit of analysis? Can we confidently compare study regions which are comprised of street segments with drastically different length characteristics (e.g. mean, variation, minimum, maximum)?
+But would excessive ranges (maximum - minimum) and variation in street segment length undermine the idea that street segments are a universally useful micro unit of analysis? Can we confidently compare study regions which are comprised of street segments with drastically different length characteristics (e.g. mean, variation, minimum, maximum)?
 
 **Sinuosity** is a fairly new concept to me. In crude terms, and at the risk of annoying geographers and mathematicians, sinuosity in this context represents a measure of 'straightness'. It is calculated by dividing the actual length of a line by the straight line distance (i.e. the distance between the start and end point). So, a perfectly straight street segment, for which the actual length and straight line length are the same, will have a sinuosity of 1, the smallest value possible. The example below, using street segments randomly sampled from Birmingham, demonstrates this concept.
 
@@ -44,34 +44,46 @@ Would excessive ranges (maximum - minimum) and variation in street segment lengt
 knitr::include_graphics("visuals/sin_example.png")
 ```
 
-Again, the reasoning behind examining sinuosity is to scrutinise the universality of street segments as meaningful behavioural spaces to study crime. A huge amount of variation in the sinuosity of street segments (either within the same study region, or between different study regions) might give reason to question this. Modern, grid-based cities might be almost entirely comprised of street segments with a sinuosity of 1. Cities with a long and convoluted history of urban development might have far more irregularity or quirks (e.g. right figure above). In which case, would the definition of 'street segment' generate units of analysis which hold the same theoretical meaning?
+Again, the reasoning behind examining sinuosity is to scrutinise the universality of street segments as meaningful behavioural spaces to study crime. A huge amount of variation in the sinuosity of street segments (either within the same study region, or between different study regions) might give reason to question this. Modern, grid-based cities might be almost entirely comprised of street segments with a sinuosity of 1. Cities with a long and convoluted history of urban development might have far more irregularity or quirks (e.g. right figure above). In which case, would the definition of 'street segment' generate units of analysis which still hold the same theoretical meaning?
 
 ## Characteristics
 
-For now, I have generated a series of descriptive statistics to try and summarise the length and sinuosity of the eight study regions. On top of statistics on raw length (e.g. 'Mean length') and sinuosity (e.g. 'Mean sin.') I have also calculated some additional stats: the difference in metres between the raw street segment length and the straight line distance (e.g. 'Mean diff.'), and the proportion of total street segments which are straight in each city ('Prop. ~straight').
+For now, I have generated a series of descriptive statistics to try and summarise the length and sinuosity of the eight study regions. On top of statistics on raw length (e.g. 'Mean length') and sinuosity (e.g. 'Mean sin.') for each study region, I have calculated the proportion of street segments which are straight ('Prop. straight'). This is simply the proportion of streets with a sinuosity of 1 (when rounded to six decimal places).
 
-```{r stats, fig.pos = 'H', message=F, comment=F, warning=F, fig.cap = "Characteristics of street segments by city."}
+The figures on **length** alone generate some interesting discussion. The maximum lengths, which range from around 1200 metres to nearly 3600 metres, are clearly dragging the mean up. Recall that we removed motorways, but not A-roads or B-roads, which can be quite long. That said, A and B-roads are common even in dense urban areas, and contain plenty of opportunities for crime (e.g. petrol stations, residential dwellings). Removing them would come at a cost. The minimum values are amusingly small -- perhaps showcasing some quirk in how the Ordnance Survey generate segments (e.g. roundabouts, which is previous research required additional data handling). The median might prove more useful. Quite a few study regions have a median street segment length of ~60 metres, but for instance, Edinburgh is noticeably longer (~72 metres) and Manchester a little shorter (~53 metres).
+
+```{r stats, fig.pos = 'H', message=F, comment=F, warning=F}
 stats_df <- readr::read_csv("results/cities_roads_stats.csv")
 
 kableExtra::kable(stats_df, format = "pipe")
 ```
 
-### Length
+How do these UK cities compare to elsewhere? One study from The Hague (the Netherlands) reported a mean length of 94 metres and a standard deviation of 108 metres. This makes it fairly similar to Leeds, for instance. A study in Boston (United States) reported a mean of 130 metres, although no standard deviation was mentioned. Another in Brooklyn Park (United States) had a mean length of 182 metres. This is considerably different to say, Manchester (Mean = 68 metres, Median = 53 metres), and strikes me as quite important when it comes to treating street segments as a universal 'micro' unit of analysis.
 
+What about **sinuosity**? Generally speaking, it appears that street segments are fairly straight. The median sinuosity across all study regions is 1. Again, the mean appears to have been dragged up by the maximum values -- some of which are clearly outliers, such as in Manchester. 
 
-### Difference
-### Sinuosity
-### Proportion straight
+The proportion of street segments which are straight (sinuosity = 1, to nearest six decimal places) is quite high, but varies quite considerably between cities. In Milton Keynes, only 48% of street segments are straight, whereas this figure is 74% in Manchester. If you had asked me beforehand, I would have guessed that Milton Keynes would have had the highest percentage out of all the study regions, due to its unusual (for the UK) grid system. The surprise might result from the study region boundaries, which for Milton Keynes included villages and hamlets outside of the main town centre. Note that it still has a median sinuosity of 1 due to rounding.
 
-
-```{r length, fig.pos = 'H', message=F, comment=F, warning=F}
+```{r length, fig.pos = 'H', message=F, comment=F, warning=F, eval = F}
 knitr::include_graphics("visuals/length.png")
 ```
 
-
-```{r lengthno, fig.pos = 'H', message=F, comment=F, warning=F}
+```{r lengthno, fig.pos = 'H', message=F, comment=F, warning=F, eval = F}
 knitr::include_graphics("visuals/length_no.png")
 ```
 
 ## Conclusion
+
+This has been a very preliminary investigation into the homogeneity of street segments in terms of **length** and **sinuosity**. The idea is / was that street segments should have _reasonably_ homogeneous physical characteristics if we want to consider them to be 'universal' micro-level units of analysis in crime concentration research, and represent comparable behavioural spaces to study crime.
+
+To me, findings certainly suggest that it is worth investigating this topic further. The length of street segments appears to vary quite considerably between study regions -- both those presented here, and those in existing research. These differences may well narrow with further data handling, for instance, the removal of outliers or specific features such as a roundabouts. However, in that case, we might consider (1) outlining how and why street segments were kept/removed from analysis in a manner which is systematic and transparent, (2) demonstrating or discussing the implications of keeping/removing street segments, and/or (3) refining the definition of street segment to exclude those roads which are far too short or long to be reasonably comparable.
+
+In terms of sinuosity, I have been surprised to see that many street segments in these UK study regions are more or less straight. However, the degree to which this holds true varies between study regions. Outliers with exceptionally high sinuosity might prove problematic in terms of keeping micro units of analysis uniform and comparable. In which case, the same three points above would apply regarding transparency, implications and definitions. 
+
+Next steps will be:
+
+- Perform some further data handling on the Ordnance Survey data to establish whether some systematic rules can create study regions with uniform street segments in terms of length and sinuosity.
+- Explore the implications of the above.
+- Explore alternative definitions of street segments e.g. split roads based on angle change, rather than intersections alone.
+- International comparison.
 

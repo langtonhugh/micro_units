@@ -181,6 +181,7 @@ round_fun <- function(x){
   x %>% 
     mutate(sin_rounded = round(as.numeric(sinuosity), 6))
 }
+
 cities_roads_simple_list_sf <- lapply(cities_roads_simple_list_sf, round_fun)
 
 # Pull out random examples of high and low sinuosity.
@@ -236,8 +237,8 @@ prop.table(table(x$sin_rounded))[[1]]
 
 one_sins_df <- as.data.frame(lapply(cities_roads_simple_list_sf, sin_one_fun)) %>% 
   mutate(id = 1) %>% 
-  pivot_longer(cols = -id, values_to = "Prop. ~straight", names_to = "City") %>% 
-  select(`Prop. ~straight`)
+  pivot_longer(cols = -id, values_to = "Prop. straight", names_to = "City") %>% 
+  select(`Prop. straight`)
 
 # Join each.
 stats_df <- cities_roads_stats_list %>% 
@@ -247,8 +248,9 @@ stats_df <- cities_roads_stats_list %>%
          City = if_else(condition = City == "Milton Keynes", true = "M. Keynes",
                         false = City)) %>%
   bind_cols(one_sins_df) %>% # same order
-  mutate(across(`Mean length (metres)`:`Prop. ~straight`, round, 2))
-
+  mutate(across(`Mean length (metres)`:`Prop. straight`, round, 2)) %>% 
+  select(City: `Max. length (metres)`, `Mean sin.`:`Prop. straight`)
+  
 # Save.
 write_csv(x = stats_df, path = "results/cities_roads_stats.csv")
 
