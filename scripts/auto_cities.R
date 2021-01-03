@@ -89,12 +89,15 @@ load(file = "auto_cities.RData")
 manc_sf <- cities_roads_list_sf[["Manchester United Kingdom"]]
 manc_sr_sf <- osm_cities_clean_list[["Manchester United Kingdom"]]
 
+# Create 500 metres buffer in centre.
 manc_buf_sf <- manc_sr_sf %>% 
   st_centroid() %>% 
   st_buffer(dist = 500) 
 
+# Clip roads to buffer.
 manc_ex_sf <- st_intersection(manc_sf, manc_buf_sf)
 
+# Plot visual.
 manc_ex_gg <- ggplot() +
   geom_sf(data = manc_buf_sf) + 
   geom_sf(data = manc_ex_sf, 
@@ -102,8 +105,9 @@ manc_ex_gg <- ggplot() +
   theme(legend.position = "none",
         axis.text = element_text(size = 6))
 
-ggsave(plot = manc_ex_gg, filename = "visuals/manc_ex.png",
-       height = 15, width = 15, unit = "cm", dpi = 200)
+# Save visual.
+# ggsave(plot = manc_ex_gg, filename = "visuals/manc_ex.png",
+#        height = 15, width = 15, unit = "cm", dpi = 200)
 
 # Study region visuals.
 study_viz_fun <- function(x, y){
@@ -114,15 +118,15 @@ study_viz_fun <- function(x, y){
 }
 
 # Create visual of study regions.
-# study_regions <- map2(osm_cities_clean_list, cities_roads_list_sf, study_viz_fun)
-# study_regions_gg <- plot_grid(plotlist = study_regions, ncol = 2,
-#                               labels = str_remove_all(cities_vec, " United Kingdom"))
+study_regions <- map2(osm_cities_clean_list, cities_roads_list_sf, study_viz_fun)
+study_regions_gg <- plot_grid(plotlist = study_regions, ncol = 2,
+                              labels = str_remove_all(cities_vec, " United Kingdom"))
 
 # Save.
 # ggsave(plot = study_regions_gg, filename = "visuals/study_regions_hq.png",
 #        height = 60, width = 30, unit = "cm", dpi = 600)
-# ggsave(plot = study_regions_gg, filename = "visuals/study_regions_lq.png",
-#        height = 60, width = 30, unit = "cm", dpi = 300)
+ggsave(plot = study_regions_gg, filename = "visuals/study_regions_lq.png",
+       height = 60, width = 30, unit = "cm", dpi = 300)
 
 # Creat function to calculate new length variables and sinuosity.
 sin_fun <- function(x){

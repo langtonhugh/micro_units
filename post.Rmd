@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 In recent years, a consensus has begun to emerge over the suitability of street segments for visualising and analysing the geographic patterning of crime. A number of studies have argued / demonstrated that these so-called 'micro' places are not only [theoretically meaningful](https://books.google.co.uk/books?hl=en&lr=&id=ROZoAgAAQBAJ&oi=fnd&pg=PP1&dq=weisburd+street+segments&ots=OkrI6wjGXS&sig=nDXmxB3UAgNe4e5kDa4oa2-RGII&redir_esc=y#v=onepage&q=weisburd%20street%20segments&f=false) behavioural spaces, but that [most 'action'](https://link.springer.com/article/10.1007/s10940-015-9276-3) (e.g. concentration and variation in crime) occurs among street segments, making them particularly useful units of analysis for studying criminal behaviour and designing crime-reducing interventions.
 
-But how useful is the 'street segment' outside of North America? To what extent are these micro units comparable between cities, and between countries? So far, I haven't found much data-driven research into the uniformity and 'universality' of street segments in terms of their physical characteristics. But to me, there are reasons to examine this issue further. In Sweden, for instance, street segments have been described as ["virtually useless"](https://search.proquest.com/docview/1899605599?fromopenview=true&pq-origsite=gscholar) because many urban areas are designed to be car-free, and consequently do not have 'street segments' in the same sense that the United States does.
+But how useful is the 'street segment' in different urban contexts? To what extent are these micro units comparable between cities, and between countries? So far, I haven't found much data-driven research into the uniformity and 'universality' of street segments in terms of their physical characteristics. But to me, there are reasons to examine this issue further. In Sweden, for instance, street segments have been described as ["virtually useless"](https://search.proquest.com/docview/1899605599?fromopenview=true&pq-origsite=gscholar) because many urban areas are designed to be car-free, and consequently do not have 'street segments' in the same sense that the United States does.
 
 Unfortunately for us, the UK does not have the foresight to have many car-free urban areas. However, it does contain cities with highly variable histories of urban development. It seems / seemed implausible to me that the physical characteristics of street segments in, say, Milton Keynes, a purpose-built town which did not exist until the 1960s, were comparable to those in Edinburgh, which gained city status around 400 years ago, or Birmingham, which underwent dramatic urban regeneration following extensive bombing in World War II.
 
@@ -60,7 +60,7 @@ kableExtra::kable(stats_df, format = "pipe")
 
 How do these UK cities compare to elsewhere? [One study](https://link.springer.com/article/10.1007/s10940-015-9276-3) from The Hague (the Netherlands) reported a mean length of 94 metres and a standard deviation of 108 metres. This makes it fairly similar to Leeds, for instance. [A study in Boston](https://link.springer.com/article/10.1007/s10940-009-9082-x?mod=article_inline) (United States) reported a mean of 130 metres, although no standard deviation was mentioned. The maximum length is that study was ~640 metres. [Another in Brooklyn Park](https://link.springer.com/article/10.1007/s10940-016-9304-y) (United States) had a mean length of 182 metres. This is considerably different to say, Manchester (Mean = 68 metres, Median = 53 metres), and strikes me as quite important when it comes to treating street segments as a universal micro unit of analysis.
 
-What about **sinuosity**? Generally speaking, it appears that street segments are fairly straight. The median sinuosity across all study regions is 1. Again, mean sinuosity appears to be dragged up by maximum values -- some of which are clearly outliers, such as in Manchester. 
+What about **sinuosity**? Generally speaking, it appears that street segments are fairly straight. The median sinuosity across all study regions is 1. Mean sinuosity is fairly low (but similar to the left example above -- which isn't exactly straight), although this may be dragged up by outliers, such as in Manchester.
 
 The proportion of street segments which are straight (sinuosity = 1, to nearest six decimal places) is quite high, but varies quite considerably between cities. In Milton Keynes, only 48% of street segments are straight, whereas this figure is 74% in Manchester. If you had asked me beforehand, I would have guessed that Milton Keynes would have had the highest percentage out of all the study regions, due to its unusual (for the UK) grid system. The surprise might result from the study region boundaries, which for Milton Keynes included villages and hamlets outside of the main town centre. Note that it still has a median sinuosity of 1 due to rounding.
 
@@ -84,9 +84,9 @@ Next steps might be:
 
 - Perform some further data handling on the Ordnance Survey data to establish whether some systematic rules can create study regions with uniform street segments in terms of length and sinuosity.
 - Explore the implications of the above for crime analysis.
-- Explore alternative definitions of street segments (e.g. segment roads based on angle change, rather than intersections alone).
+- Explore alternative definitions of street segments (e.g. segment roads based on angle change between nodes, rather than intersections alone).
 - Examine other physical characteristics (e.g. width).
-- International comparisons (e.g. UK versus US).
+- International comparisons.
 
 ## Further reading
 
