@@ -38,7 +38,7 @@ For now, I focus on describing the physical characteristics of these street segm
 
 But would excessive ranges (maximum - minimum) and variation in street segment length undermine the idea that street segments are a universally useful micro unit of analysis? Can we confidently compare study regions which are comprised of street segments with drastically different length characteristics (e.g. mean, variation, minimum, maximum)?
 
-**Sinuosity** is a fairly new concept to me. In crude terms, and at the risk of annoying geographers and mathematicians, sinuosity in this context represents a measure of 'straightness'. It is calculated by [dividing the actual length of a line by the straight line distance](https://en.wikipedia.org/wiki/Sinuosity) (i.e. the distance between the start and end point). So, a perfectly straight street segment, for which the actual length and straight line length are the same, will have a sinuosity of 1, the smallest value possible. The example below, using street segments randomly sampled from Birmingham, demonstrates this concept.
+**Sinuosity** is a fairly new concept to me. In crude terms, and at the risk of annoying geographers and mathematicians, sinuosity in this context represents a measure of 'straightness'. It is calculated by [dividing the actual length of a line by the straight line distance](https://en.wikipedia.org/wiki/Sinuosity) (i.e. the distance between the start and end point). So, a perfectly straight street segment, for which the actual length and straight line length are the same, will have a sinuosity of 1, the smallest value possible. The example below, using street segments randomly sampled from Birmingham, demonstrates this concept. The black line represents the raw street segment, and the red line is the shortest distance from start to finish.
 
 ```{r simexample, fig.pos = 'H', message=F, comment=F, warning=F}
 knitr::include_graphics("visuals/sin_example.png")
@@ -95,6 +95,5 @@ Buil-Gil, D., Moretti, A., & Langton, S. (2020). The integrity of crime statisti
 Steenbeek, W., & Weisburd, D. (2016). Where the action is in crime? An examination of variability of crime across different spatial units in The Hague, 2001–2009. Journal of Quantitative Criminology, 32(3), 449-469.
 
 Taylor, R. B. (2015). Community criminology: Fundamentals of spatial and temporal scaling, ecological indicators, and selectivity bias (Vol. 12). NYU Press.
-al units in The Hague, 2001–2009. Journal of Quantitative Criminology, 32(3), 449-469.
 
 Weisburd, D., Groff, E. R., & Yang, S. M. (2012). The criminology of place: Street segments and our understanding of the crime problem. Oxford University Press.

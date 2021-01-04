@@ -83,7 +83,7 @@ cities_roads_list_sf <- map2(roads_list, osm_cities_clean_list, st_intersection)
 
 # Save and load. Run as appropriate.
 # save.image(file = "auto_cities.RData")
-load(file = "auto_cities.RData")
+# load(file = "auto_cities.RData")
 
 # Street segment example.
 manc_sf <- cities_roads_list_sf[["Manchester United Kingdom"]]
