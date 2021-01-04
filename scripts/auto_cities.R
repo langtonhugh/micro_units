@@ -205,8 +205,7 @@ high_sin <- ggplot() +
   geom_sf(data = example_orig_sf, size = 2) +
   geom_sf(data = example_simple_sf, col = "Red") +
   labs(title = "High sinuosity (~7)") +
-  theme(axis.text.y = element_text(size = 6),
-        axis.text.x = element_text(size = 6, angle = 45, vjust = 0.5),
+  theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
 set.seed(1612)
@@ -225,14 +224,13 @@ low_sin <- ggplot() +
   geom_sf(data = example_orig_sf, size = 2) +
   geom_sf(data = example_simple_sf, col = "Red") +
   labs(title = "Low sinuosity (~1.08)") +
-  theme(axis.text.y = element_text(size = 6),
-        axis.text.x = element_text(size = 6, angle = 45, vjust = 0.5),
+  theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
 sin_example_gg <- plot_grid(low_sin, high_sin, ncol = 2)
 
-# ggsave(plot = sin_example_gg, filename = "visuals/sin_example.png",
-#        height = 8, width = 12)
+ggsave(plot = sin_example_gg, filename = "visuals/sin_example.png",
+       height = 8, width = 12)
 
 # Produce percentages.
 sin_one_fun <- function(x) {
