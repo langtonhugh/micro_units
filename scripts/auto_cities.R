@@ -83,7 +83,7 @@ cities_roads_list_sf <- map2(roads_list, osm_cities_clean_list, st_intersection)
 
 # Save and load. Run as appropriate.
 # save.image(file = "auto_cities.RData")
-# load(file = "auto_cities.RData")
+load(file = "auto_cities.RData")
 
 # Street segment example.
 manc_sf <- cities_roads_list_sf[["Manchester United Kingdom"]]
@@ -96,6 +96,9 @@ manc_buf_sf <- manc_sr_sf %>%
 
 # Clip roads to buffer.
 manc_ex_sf <- st_intersection(manc_sf, manc_buf_sf)
+
+# Save for QGIS exploration.
+# st_write(obj = manc_ex_sf, dsn = "data/manc_ex_sf.shp")
 
 # Plot visual.
 manc_ex_gg <- ggplot() +
